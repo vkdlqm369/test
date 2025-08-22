@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ssh 연결
-        uses: appleboy/ssh-action@master
+        uses: vkdlqm369/ssh-action@master
         with:
-          host: ${{ secrets.NCP_HOST }}
-          username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
-          port: ${{ secrets.NCP_PORT }}
-          script: ls -al 
+          host: ${{ env.NCP_HOST }}
+          username: ${{ env.NCP_USERNAME }}
+          password: ${{ env.NCP_PASSWORD }}
+          port: ${{ env.NCP_PORT }}
+          script: ls -al
