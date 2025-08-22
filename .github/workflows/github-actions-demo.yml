@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ssh 연결
-        uses: vkdlqm369/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ env.NCP_HOST }}
           username: ${{ env.NCP_USERNAME }}
