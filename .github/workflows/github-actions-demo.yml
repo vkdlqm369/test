@@ -5,7 +5,6 @@ on:
 
 jobs:
   pull_from_registry:
-    if: ${{ contains(github.event.head_commit.message, '[deploy]')}}
     runs-on: ubuntu-latest
     steps:
       - name: ssh 연결
@@ -20,9 +19,10 @@ jobs:
 
 
 
-
-  pull_from_registry_dev:
-    if: ${{ contains(github.event.head_commit.message, '[dev]')}}
+on:
+  push:
+    branches: [dev]
+     pull_from_registry_dev:
     runs-on: ubuntu-latest
     steps:
       - name: ssh 연결
