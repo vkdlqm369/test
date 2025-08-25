@@ -21,8 +21,7 @@ jobs:
 
 
 
-jobs:
-  pull_from_registry:
+  pull_from_registry_dev:
     if: ${{ contains(github.event.head_commit.message, '[dev]')}}
     runs-on: ubuntu-latest
     steps:
