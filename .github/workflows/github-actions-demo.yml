@@ -17,3 +17,21 @@ jobs:
           password: ${{ secrets.NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
           script: ls -al
+
+
+
+
+jobs:
+  pull_from_registry:
+    if: ${{ contains(github.event.head_commit.message, '[dev]')}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh 연결
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.NCP_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.NCP_USERNAME }}
+          password: ${{ secrets.NCP_PASSWORD }}
+          port: ${{ secrets.NCP_PORT }}
+          script: ps -ef
