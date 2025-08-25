@@ -1,14 +1,6 @@
-on:
-  workflow_dispatch:
-    inputs:
-      deploy_ncp:
-        description: "이번 실행에서 NCP 배포를 수행할까요?"
-        type: boolean
-        default: false
-
 jobs:
   pull_from_registry:
-    if: ${{ inputs.deploy_ncp == true }}
+    if: ${{ contains(github.event.head_commit.message, '[deploy]')}}
     runs-on: ubuntu-latest
     steps:
       - name: ssh 연결
@@ -20,4 +12,3 @@ jobs:
           password: ${{ secrets.NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
           script: ls -al
-
