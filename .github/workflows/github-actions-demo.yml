@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
 
-jobs:
+ijobs:
   pull_from_registry:
     name: NCP 접속 후 이미지 다운로드 및 배포
     runs-on: ubuntu-latest
@@ -15,5 +15,6 @@ jobs:
           host: ${{ secrets.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME }}
           password: ${{ secrets.NCP_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.NCP_PORT }}
           script: ls -al
