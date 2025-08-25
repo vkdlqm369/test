@@ -1,36 +1,39 @@
+name: Deploy by branch
+
 on:
   push:
-    branches: [main]
-
+    branches: [main, dev]
+  # 수동 실행도 원하면 아래 주석 해제
+  # workflow_dispatch:
 
 jobs:
-  pull_from_registry:
+  deploy-prod:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - name: ssh 연결
+      - name: ssh 연결 (prod)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.NCP_HOST }}
-          key: ${{ secrets.SSH_KEY }}
           username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
+          # key 또는 password 중 하나만 쓰는 게 일반적입니다.
+          key: ${{ secrets.SSH_KEY }}
+          # password: ${{ secrets.NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
-          script: ls -al
+          script: |
+            ls -al
 
-
-
-on:
-  push:
-    branches: [dev]
-     pull_from_registry_dev:
+  deploy-dev:
+    if: ${{ github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
-      - name: ssh 연결
+      - name: ssh 연결 (dev)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.NCP_HOST }}
-          key: ${{ secrets.SSH_KEY }}
           username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
+          # password: ${{ secrets.NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
-          script: ps -ef
+          script: |
+            ps -ef
