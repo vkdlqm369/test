@@ -1,20 +1,33 @@
 name: deploy next to ncloud
 
 on:
+  # 기존 push 트리거 유지 (필요하면 나중에 제거 가능)
   push:
     branches: [main]
+
+  # 수동 실행 시 체크박스로 배포 여부를 결정
+  workflow_dispatch:
+    inputs:
+      deploy_ncp:
+        description: "이번 실행에서 NCP 배포를 수행할까요?"
+        type: boolean
+        default: false
 
 jobs:
   pull_from_registry:
     name: NCP 접속 후 이미지 다운로드 및 배포
     runs-on: ubuntu-latest
+    # 👉 수동 실행(workflow_dispatch) 이면서 체크박스가 true일 때만 실행
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_ncp == true }}
     steps:
       - name: ssh 연결
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.NCP_HOST }}
           key: ${{ secrets.SSH_KEY }}
           username: ${{ secrets.NCP_USERNAME }}
           password: ${{ secrets.NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
-          script: ls -al
+          script: |
+            ls -al
+
