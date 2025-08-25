@@ -15,6 +15,5 @@ ijobs:
           host: ${{ secrets.NCP_HOST }}
           username: ${{ secrets.NCP_USERNAME }}
           password: ${{ secrets.NCP_PASSWORD }}
-          key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.NCP_PORT }}
           script: ls -al
